@@ -1,3 +1,4 @@
+import superHero from '../models/SuperHero.mjs';
 import SuperHero from '../models/SuperHero.mjs';
 import IRepository from './IRepository.mjs';
 
@@ -16,6 +17,36 @@ class SuperHeroRepository extends IRepository {
 
     async obtenerMayoresDe30() {
         return await SuperHero.find({ edad: { $gt: 30 } });
+    }
+
+    /////////////////
+    /////TP1-S3//////
+    /////////////////
+
+    //Crear superhéroe
+    async crear(datos) {
+    const nuevoHeroe = new SuperHero(datos);
+    return await nuevoHeroe.save();
+    }
+
+    //Actualizar superhéroe y mostrar todos
+    async actualizarHeroe(nombreSuperHeroe) {
+        const result = await SuperHero.updateOne(
+            { nombreSuperHeroe: "Goku" },
+            { $set: { edad: 26 } });
+        return await SuperHero.find({});
+    }
+
+    //Borrar superhéroe por id de DB y mostrar lista actulalizada
+    async eliminarHeroe(id) {
+        const result = await SuperHero.deleteOne({ _id: id });
+        return await SuperHero.find({});
+    }
+
+    //Borrar superhéroe por nombre de DB y mostrr superhéroe borrado
+    async eliminarSuperHeroePorNombre(nombreSuperHeroe) {
+        const result = await SuperHero.deleteOne({ nombreSuperHeroe: nombreSuperHeroe });
+        return await result;
     }
 }
 
